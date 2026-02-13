@@ -6,6 +6,9 @@ app = create_app()
 
 with app.app_context():
     db = get_db()
+
+    with app.open_resource('schema.sql') as f:
+        db.executescript(f.read().decode('utf8'))
     
     # 1. ユーザーデータの初期化
     db.execute('DELETE FROM user')
